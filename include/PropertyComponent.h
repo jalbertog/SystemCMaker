@@ -13,7 +13,7 @@ class PropertyComponent
         inline const QStringList & inPortsList() const {return inPorts;};
         inline const QStringList & outPortsList() const {return outPorts;};
         int numberInPorts() const;
-        int numberOutPorts() const;
+        int numberOutPorts() const; 
         QPointF Pos() const;
         void clear();
 
@@ -22,10 +22,10 @@ class PropertyComponent
         PropertyComponent getXorGate();
         PropertyComponent getOrGate();
 
-
+        QString name;
+        
         void operator=(const PropertyComponent &other);
     private:
-        QString name;
         QPointF pos;
         QStringList inPorts;
         QStringList outPorts;

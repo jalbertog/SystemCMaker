@@ -60,7 +60,6 @@ void SvgDraggableItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
   //qDebug() << "Item Coordinates " << event->pos();
   //qDebug() << "Item Pos : " << this->mapFromScene(event->scenePos());
   QRectF b = boundingRect();
-  QPointF p = event->pos() - QPointF(b.width()/2.0,b.height()/2.0);
   QPointF d = mapFromScene(event->scenePos());
   qDebug() << "Escene pos >>>>>> " << d; 
   if(m_dragged)

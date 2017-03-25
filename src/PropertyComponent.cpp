@@ -41,9 +41,6 @@ void PropertyComponent::clear()
 PropertyComponent PropertyComponent::getAndGate()
 {
     PropertyComponent gate("AND_gate");
-    gate.addPort("a_in",PortItem::IN);
-    gate.addPort("b_in",PortItem::IN);
-    gate.addPort("c_out",PortItem::OUT);
 
     return gate;
 }
@@ -51,9 +48,6 @@ PropertyComponent PropertyComponent::getAndGate()
 PropertyComponent PropertyComponent::getOrGate()
 {
     PropertyComponent gate("OR_gate");
-    gate.addPort("a_in",PortItem::IN);
-    gate.addPort("b_in",PortItem::IN);
-    gate.addPort("c_out",PortItem::OUT);
 
     return gate;
 }
@@ -61,10 +55,6 @@ PropertyComponent PropertyComponent::getOrGate()
 PropertyComponent PropertyComponent::getXorGate()
 {
     PropertyComponent gate("XOR_gate");
-    gate.addPort("a_in",PortItem::IN);
-    gate.addPort("b_in",PortItem::IN);
-    gate.addPort("c_out",PortItem::OUT);
-
     return gate;
 }
 

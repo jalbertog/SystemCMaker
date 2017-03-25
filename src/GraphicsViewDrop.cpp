@@ -7,6 +7,7 @@
 GraphicsViewDrop::GraphicsViewDrop(QWidget *parent) : QGraphicsView(parent)
 {
   click = 0;
+  first = NULL;
   setAcceptDrops(true);
 }
 
@@ -19,6 +20,7 @@ GraphicsViewDrop::GraphicsViewDrop(QGraphicsScene * scene, QWidget * parent) :
 {
   click = 0;
   setAcceptDrops(true);
+  first = NULL;
 }
 
 /**
@@ -91,6 +93,7 @@ void GraphicsViewDrop::mouseDoubleClickEvent(QMouseEvent * event)
 
   if(port)
   {
+    qDebug() << "port";
     click++;
     if( click == 2 and (port->getType() == PortItem::IN))
     {
@@ -155,4 +158,24 @@ void GraphicsViewDrop::zoomOut()
 void GraphicsViewDrop::wheelEvent(QWheelEvent *event)
 {
   scaleView(pow((double)2, event->delta() / 240.0));
+}
+
+
+QVector<PropertyComponent> GraphicsViewDrop::getAllPropertyOfComponent() const
+{
+  QVector<PropertyComponent> vectorOfComponents;
+  QList<QGraphicsItem *> components = items();
+  foreach(QGraphicsItem *it, components)
+  {
+    SvgDraggableItem * item = qgraphicsitem_cast<SvgDraggableItem *>(it);
+    if(item)
+    {
+        PropertyComponent p;
+        p.setPos(item->pos());
+        p.name = item->name;
+        vectorOfComponents.append(p);
+    }
+  }
+
+  return vectorOfComponents;
 }

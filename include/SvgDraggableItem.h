@@ -28,6 +28,8 @@ class SvgDraggableItem : public QGraphicsSvgItem
     void deleteAllWires(QGraphicsScene *scene);
     void setScale(qreal factor);
     void setSharedRenderer(QSvgRenderer * renderer);
+
+    QString name;
   protected:
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
@@ -38,7 +40,6 @@ class SvgDraggableItem : public QGraphicsSvgItem
     QVector<PortItem *> inPorts;
     QVector<PortItem *> outPorts;
     bool m_dragged;
-    QString name;
     QSizeF size;
     PropertyComponent pComponent;
 };
