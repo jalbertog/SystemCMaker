@@ -1,0 +1,8 @@
+*.o
+SystemCMaker
+*.zip
+*.gz
+/Gate
+moc_*
+qrc_*
+Makefile

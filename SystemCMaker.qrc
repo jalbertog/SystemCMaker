@@ -1,0 +1,8 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+    <file>SVG/AND_gate.svg</file>
+    <file>SVG/OR_gate.svg</file>
+    <file>SVG/XOR_gate.svg</file>
+    <file>SVG/NOT_gate.svg</file>
+</qresource>
+</RCC>
