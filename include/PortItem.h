@@ -6,9 +6,9 @@
 class PortItem : public QGraphicsEllipseItem
 {
     public:
-        enum Sig{IN,OUT};
-        enum { Type = UserType + 3 };
-        PortItem(const QPointF &position,const qreal &rad,Sig  t,QGraphicsItem * parent= 0);
+      enum Sig{IN,OUT};
+      enum { Type = UserType + 3 };
+      PortItem(const QPointF &position,const qreal &rad,Sig  t,QGraphicsItem * parent= 0);
       int type() const;
       inline Sig getType() const { return sig;}
       void setState(int st);

@@ -5,6 +5,8 @@
 #include <QHash>
 #include <SvgDraggableItem.h>
 #include <PortItem.h>
+#include <QVector>
+#include <PropertyComponent.h>
 
 /**
 * @brief Class for reimplement methods for the class view
@@ -15,6 +17,7 @@
     GraphicsViewDrop(QWidget *parent = 0);
     GraphicsViewDrop(QGraphicsScene * scene, QWidget * parent = 0);
     void setRedererTable(QHash<QString,QSvgRenderer *> *render);
+    QVector<PropertyComponent> getAllPropertyOfComponent() const ;
     void zoomIn();
     void zoomOut();
   private:

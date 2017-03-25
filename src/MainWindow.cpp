@@ -36,11 +36,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     svgItem->setPos(30,120);
     svgItem->setScale(0.5);
 
-    QFont f("Monospace", -1,QFont::Black);
-    QLatin1String text("Press Delete and select a item to detele\n"
-                                        "Select Multiples Items pressing on ctrl");
-    scene->addText(text,f);
-
 }
 
 
