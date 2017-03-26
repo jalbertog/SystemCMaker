@@ -12,6 +12,7 @@ class PortItem : public QGraphicsEllipseItem
       int type() const;
       inline Sig getType() const { return sig;}
       void setState(int st);
+      inline qreal getRadius()const {return radius;}
       QPointF Pos() ;
     protected:
         void paint(QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0);

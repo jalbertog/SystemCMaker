@@ -74,9 +74,10 @@ void PolyLinesItem::adjust(const QPointF &start, const QPointF &end)
 
 void PolyLinesItem::adjust()
 {
-  CalculatePoints(portIn->Pos(),portOut->Pos());
+  QPointF offSet(portIn->getRadius()*0.9,0);
+  CalculatePoints(portIn->Pos()+offSet,portOut->Pos()-offSet);
   prepareGeometryChange();
-  QPainterPath mpath(portIn->Pos());
+  QPainterPath mpath(breakPoints.at(0));
   mpath.lineTo(QPointF(breakPoints.at(1)));
   mpath.lineTo(QPointF(breakPoints.at(2)));
   mpath.lineTo(QPointF(breakPoints.at(3)));
