@@ -57,7 +57,10 @@ void GraphicsViewDrop::dropEvent(QDropEvent * event)
       event->ignore();
 }
 
-
+/**
+* @brief Event when the drop enter in the graphics
+* @param event the DragEnterEvent
+*/
 void GraphicsViewDrop::dragEnterEvent(QDragEnterEvent *event)
 {
   if (event->mimeData()->hasText()) 
@@ -69,6 +72,10 @@ void GraphicsViewDrop::dragEnterEvent(QDragEnterEvent *event)
     event->ignore();
 }
 
+/**
+* @brief Event when the drop is moved in the graphics
+* @param event the DragMoveEvent
+*/
 void GraphicsViewDrop::dragMoveEvent(QDragMoveEvent *event)
 {
   if (event->mimeData()->hasText()) 
@@ -81,7 +88,7 @@ void GraphicsViewDrop::dragMoveEvent(QDragMoveEvent *event)
 }
 
 /**
-* @brief Function to handle 
+* @brief Function to handle  double click
 * @param event The event
 */
 void GraphicsViewDrop::mouseDoubleClickEvent(QMouseEvent * event)
@@ -136,6 +143,10 @@ void GraphicsViewDrop::mouseDoubleClickEvent(QMouseEvent * event)
 
 }
 
+/**
+* @brief Scale the view in a factor
+* @param scaleFactor Factor to scale the view between 0.07 and 100
+*/
 void GraphicsViewDrop::scaleView(qreal scaleFactor)
 {
   qreal factor = transform().scale(scaleFactor, scaleFactor).mapRect(QRectF(0, 0, 1, 1)).width();
@@ -145,22 +156,36 @@ void GraphicsViewDrop::scaleView(qreal scaleFactor)
   scale(scaleFactor, scaleFactor);
 }
 
+/**
+* @brief ZoomIn the view
+*/
 void GraphicsViewDrop::zoomIn()
 {
   scaleView(qreal(1.2));
 }
 
+/**
+* @brief Zoom out the view
+*/
 void GraphicsViewDrop::zoomOut()
 {
   scaleView(1 / qreal(1.2));
 }
 
+/**
+* @brief Zoom relative to the wheel of mouse
+* @param event WheelEvent 
+*/
 void GraphicsViewDrop::wheelEvent(QWheelEvent *event)
 {
   scaleView(pow((double)2, event->delta() / 240.0));
 }
 
 
+/**
+* @brief Get the property of all components( gates) in the scene
+* @return QVector<PropertyComponent> 
+**/
 QVector<PropertyComponent> GraphicsViewDrop::getAllPropertyOfComponent() const
 {
   QVector<PropertyComponent> vectorOfComponents;
@@ -169,12 +194,7 @@ QVector<PropertyComponent> GraphicsViewDrop::getAllPropertyOfComponent() const
   {
     SvgDraggableItem * item = qgraphicsitem_cast<SvgDraggableItem *>(it);
     if(item)
-    {
-        PropertyComponent p;
-        p.setPos(item->pos());
-        p.name = item->name;
-        vectorOfComponents.append(p);
-    }
+        vectorOfComponents.append(item->getPropertyComponent());
   }
 
   return vectorOfComponents;

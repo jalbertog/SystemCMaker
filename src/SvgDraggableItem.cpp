@@ -13,24 +13,38 @@ SvgDraggableItem::SvgDraggableItem(const QString &n,QSvgRenderer * renderer,cons
   qDebug() <<"In Ports" << pComponent.numberInPorts();
   switch(pComponent.numberInPorts())
   {
+    PortItem *p;
     case 1:
-      inPorts << new PortItem(QPointF(0.0,size. height()/2.0-6.0),6.0,PortItem::IN,this);
+      p = new PortItem(QPointF(0.0,size. height()/2.0-6.0),6.0,PortItem::IN,this);
+      p->setName(pComponent.inPortsList().at(0));
+      inPorts << p;
     break;
     case 2:
-      inPorts << new PortItem(QPointF(0.0,4.0),6.0,PortItem::IN,this);
-      inPorts << new PortItem(QPointF(0.0,size.height()-16.0),6.0,PortItem::IN,this);
+      p = new PortItem(QPointF(0.0,4.0),6.0,PortItem::IN,this);
+      p->setName(pComponent.inPortsList().at(0));
+      inPorts << p;
+      p = new PortItem(QPointF(0.0,size.height()-16.0),6.0,PortItem::IN,this);
+      p->setName(pComponent.inPortsList().at(1));
+      inPorts << p;
     break;
   }
 
 qDebug() <<"Out Ports" << pComponent.numberOutPorts();
   switch(pComponent.numberOutPorts())
   {
+    PortItem * p;
     case 1:
-      inPorts << new PortItem(QPointF(size.width()-6.0,size.height()/2.0 - 6.0),6.0,PortItem::OUT,this);
+      p = new PortItem(QPointF(size.width()-6.0,size.height()/2.0 - 6.0),6.0,PortItem::OUT,this);
+      p->setName(pComponent.outPortsList().at(0));
+      inPorts << p;
     break;
     case 2:
-      inPorts << new PortItem(QPointF(size.width(),4.0),6.0,PortItem::OUT,this);
-      inPorts << new PortItem(QPointF(size.width(),size.height()-4.0),6.0,PortItem::OUT,this);
+      p = new PortItem(QPointF(size.width(),4.0),6.0,PortItem::OUT,this);
+      p->setName(pComponent.outPortsList().at(0));
+      inPorts << p;
+      p = new PortItem(QPointF(size.width(),size.height()-4.0),6.0,PortItem::OUT,this);
+      p->setName(pComponent.outPortsList().at(1));
+      inPorts << p;
     break;
   }
 
@@ -55,16 +69,11 @@ void SvgDraggableItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 
 void SvgDraggableItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
-  //qDebug() << "=====================";
-  //qDebug() <<"ScenePos : "<<    event->scenePos();
-  //qDebug() << "Item Coordinates " << event->pos();
-  //qDebug() << "Item Pos : " << this->mapFromScene(event->scenePos());
   QRectF b = boundingRect();
   QPointF d = mapFromScene(event->scenePos());
-  qDebug() << "Escene pos >>>>>> " << d; 
   if(m_dragged)
   {
-    this->setPos(event->scenePos()-d*scale());//mapToScene(p));
+    this->setPos(event->scenePos()-d*scale());
     m_dragged = false;
   }
 
@@ -113,6 +122,16 @@ void SvgDraggableItem::setPosToItem(const QPointF &p)
     }
  }
 
+const QVector<PortItem *> & SvgDraggableItem::inPortsVector() const
+{ 
+  return inPorts;
+}
+
+const QVector<PortItem *> & SvgDraggableItem::outPortsVector() const
+{
+  return outPorts;
+}
+
  int SvgDraggableItem::type() const
  {
     return Type;
@@ -127,4 +146,9 @@ void SvgDraggableItem::setSharedRenderer(QSvgRenderer * renderer)
   {
     size *= factor;
     QGraphicsSvgItem::setScale(factor);
+  }
+
+  const PropertyComponent & SvgDraggableItem::getPropertyComponent() const
+  {
+    return pComponent;
   }

@@ -29,9 +29,7 @@ PolyLinesItem::PolyLinesItem(PortItem *pIn, PortItem *pOut
   color = Qt::black;
   portIn = pIn;
   portOut = pOut;
-  qDebug() << "MapToScene >> (" << start << "," << end <<")";
   adjust(start,end);
-  qDebug() << "Points in PolyLInes " << breakPoints ;
 }
 
 /**
@@ -95,6 +93,9 @@ QPointF PolyLinesItem::lastPoint() const
   return breakPoints.at(3);
 }
 
+/**
+*  @brief Detach line of ports
+*/
 bool PolyLinesItem::detach()
 {
   qgraphicsitem_cast<SvgDraggableItem *>(portIn->parentItem())->removeWire(this);

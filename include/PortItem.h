@@ -3,6 +3,10 @@
 #include <QPainter>
 #include <QGraphicsEllipseItem>
 #include <QRectF>
+
+/**
+* @brief Class for paint and hadled the pins of components
+*/
 class PortItem : public QGraphicsEllipseItem
 {
     public:
@@ -10,6 +14,8 @@ class PortItem : public QGraphicsEllipseItem
       enum { Type = UserType + 3 };
       PortItem(const QPointF &position,const qreal &rad,Sig  t,QGraphicsItem * parent= 0);
       int type() const;
+      QString getName() const;
+      void setName(const QString &n);
       inline Sig getType() const { return sig;}
       void setState(int st);
       inline qreal getRadius()const {return radius;}
@@ -22,5 +28,6 @@ class PortItem : public QGraphicsEllipseItem
         QPointF posi;
         Sig  sig;
         QColor active;
+        QString name;
 };
 #endif

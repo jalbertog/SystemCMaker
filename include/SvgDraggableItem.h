@@ -29,6 +29,10 @@ class SvgDraggableItem : public QGraphicsSvgItem
     void setScale(qreal factor);
     void setSharedRenderer(QSvgRenderer * renderer);
 
+    const PropertyComponent &getPropertyComponent() const;
+    const QVector<PortItem *> &inPortsVector() const;
+    const QVector<PortItem *> &outPortsVector() const;
+
     QString name;
   protected:
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
