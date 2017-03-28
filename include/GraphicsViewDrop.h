@@ -31,6 +31,7 @@
     void dragMoveEvent(QDragMoveEvent *event) ;
     void mouseDoubleClickEvent(QMouseEvent * event);
     void wheelEvent(QWheelEvent *event);
+    void scrollContentsBy(int dx, int dy);
   private:
     void scaleView(qreal scaleFactor);
 };

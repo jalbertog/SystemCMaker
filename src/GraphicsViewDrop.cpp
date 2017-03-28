@@ -1,5 +1,6 @@
 #include "GraphicsViewDrop.h"
 #include <PolyLinesItem.h>
+#include <QScrollBar>
 
 /**
 * @brief Default constructor
@@ -52,6 +53,7 @@ void GraphicsViewDrop::dropEvent(QDropEvent * event)
     qDebug() << "Pos in Scene Coordinate: " << mapToScene(event->pos());
     svgItem->setPosToItem(mapToScene(event->pos()));                                        //!!!
     event->accept();
+    setCursor(Qt::ArrowCursor);
   } 
   else 
       event->ignore();
@@ -67,6 +69,7 @@ void GraphicsViewDrop::dragEnterEvent(QDragEnterEvent *event)
   {
     event->setDropAction(Qt::MoveAction);
     event->accept();
+    setCursor(Qt::ClosedHandCursor);
   } 
   else
     event->ignore();
@@ -82,6 +85,7 @@ void GraphicsViewDrop::dragMoveEvent(QDragMoveEvent *event)
   {
     event->setDropAction(Qt::MoveAction);
     event->accept();
+    setCursor(Qt::ClosedHandCursor);
   } 
   else 
     event->ignore();
@@ -198,4 +202,24 @@ QVector<PropertyComponent> GraphicsViewDrop::getAllPropertyOfComponent() const
   }
 
   return vectorOfComponents;
+}
+
+/**
+ * @brief Adjust the scene dynamically
+ * @param dx scrolled x
+ * @param dy scrooled y
+ */
+void GraphicsViewDrop::scrollContentsBy(int dx, int dy)
+{
+    QScrollBar * h = horizontalScrollBar();
+    QScrollBar * v = verticalScrollBar();
+    QRectF r = sceneRect();
+    if(h->value() == h->maximum())
+        r.setWidth(r.width()+h->singleStep());
+
+    if(v->value() == v->maximum())
+        r.setHeight(r.height()+v->singleStep());
+
+    setSceneRect(r);
+    QGraphicsView::scrollContentsBy(dx,dy);
 }

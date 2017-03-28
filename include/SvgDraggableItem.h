@@ -28,6 +28,7 @@ class SvgDraggableItem : public QGraphicsSvgItem
     void deleteAllWires(QGraphicsScene *scene);
     void setScale(qreal factor);
     void setSharedRenderer(QSvgRenderer * renderer);
+    void adjustAll();
 
     const PropertyComponent &getPropertyComponent() const;
     const QVector<PortItem *> &inPortsVector() const;
@@ -38,6 +39,8 @@ class SvgDraggableItem : public QGraphicsSvgItem
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     void mousePressEvent(QGraphicsSceneMouseEvent *event) ;
+    QVariant itemChange(GraphicsItemChange change, const QVariant &value);
+
   private:
     QPointF anchorPoint;
     QList<PolyLinesItem* > wireLines; 

@@ -9,6 +9,12 @@ class MGraphicsScene : public QGraphicsScene
     MGraphicsScene(QObject *parent = 0);
   protected:
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent * mouseEvent);
+    void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+  private:
+    QPointF initSelection;
+    bool press;
 };
 
 #endif

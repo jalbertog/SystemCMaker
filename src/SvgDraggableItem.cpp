@@ -5,7 +5,7 @@
 SvgDraggableItem::SvgDraggableItem(const QString &n,QSvgRenderer * renderer,const PropertyComponent &cmp
                                       , QGraphicsItem* parent): QGraphicsSvgItem(parent), m_dragged(false), name(n)
 {
-  setFlags(QGraphicsItem::ItemIsSelectable| QGraphicsItem::ItemIsMovable);
+  setFlags(QGraphicsItem::ItemIsSelectable| QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemSendsGeometryChanges);
   setSharedRenderer(renderer);
   pComponent = cmp;
 
@@ -50,23 +50,31 @@ qDebug() <<"Out Ports" << pComponent.numberOutPorts();
 
 }
 
+/**
+ * @brief SvgDraggableItem::setAnchorPoint
+ * @param anchorPoint
+ */
 void SvgDraggableItem::setAnchorPoint(const QPointF &anchorPoint)
 {
   this->anchorPoint = anchorPoint;
 }
+
+/**
+ * @brief Move the item
+ * @param event
+ */
 void SvgDraggableItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
   QGraphicsSvgItem::mouseMoveEvent(event);
-  qDebug() << "Move: " << event->scenePos() ;
   m_dragged = true;
-  PolyLinesItem * curr;
-  qDebug() << wireLines.size();
-  foreach (curr , wireLines)
-  {
-      curr->adjust();
-  }
+  setCursor(Qt::ClosedHandCursor);
+  adjustAll();
 }
 
+/**
+ * @brief Mouse release
+ * @param event
+ */
 void SvgDraggableItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
   QRectF b = boundingRect();
@@ -78,13 +86,17 @@ void SvgDraggableItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
   }
 
   update();
+  setCursor(Qt::ArrowCursor);
   QGraphicsSvgItem::mouseReleaseEvent(event);
 }
 
+/**
+ * @brief mouse Press Event
+ * @param event
+ */
 void SvgDraggableItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-  qDebug() <<"Cantidad de Lineas:  " << wireLines.size();
-  qDebug() << "Point <<" << mapFromItem(this,event->scenePos());
+  setCursor(Qt::OpenHandCursor);
   update();
   QGraphicsSvgItem::mouseReleaseEvent(event);  
 }
@@ -100,16 +112,30 @@ void SvgDraggableItem::setPosToItem(const QPointF &p)
   this->setPos(p-middlePoint);
 }
 
+/**
+  * @brief Add wire to the list of wires
+  * @param wire PolyLinesItem Line
+  */
  void SvgDraggableItem::addWire(PolyLinesItem *wire)
  {
     wireLines << wire;
  }
 
+ /**
+  * @brief Remove de wire of the componente
+  * @param wire PolyLinesItem wire to remove
+  * @return bool true if wire exist
+  */
  bool SvgDraggableItem::removeWire(PolyLinesItem *wire)
  {
     return wireLines.removeOne(wire);
  }
 
+ /**
+  * @brief Remove all wires of the component
+  *         scene is used for remove the item from the Scene too.
+  * @param scene The scene for current view
+  */
  void SvgDraggableItem::deleteAllWires(QGraphicsScene *scene)
  {
     while(!wireLines.isEmpty())
@@ -122,6 +148,10 @@ void SvgDraggableItem::setPosToItem(const QPointF &p)
     }
  }
 
+ /**
+ * @brief SvgDraggableItem::inPortsVector
+ * @return vector of PortItem
+ */
 const QVector<PortItem *> & SvgDraggableItem::inPortsVector() const
 { 
   return inPorts;
@@ -132,23 +162,56 @@ const QVector<PortItem *> & SvgDraggableItem::outPortsVector() const
   return outPorts;
 }
 
- int SvgDraggableItem::type() const
- {
-    return Type;
- }
+int SvgDraggableItem::type() const
+{
+  return Type;
+}
 
+ /**
+ * @brief reimplements setSharedRenderer
+ * @param renderer
+ */
 void SvgDraggableItem::setSharedRenderer(QSvgRenderer * renderer)
 {
   size = QSizeF(renderer->defaultSize());
   QGraphicsSvgItem::setSharedRenderer(renderer);
 }
-  void SvgDraggableItem::setScale(qreal factor)
-  {
-    size *= factor;
-    QGraphicsSvgItem::setScale(factor);
-  }
 
-  const PropertyComponent & SvgDraggableItem::getPropertyComponent() const
+/**
+ * @brief reimplents setScale
+ * @param factor
+ */
+void SvgDraggableItem::setScale(qreal factor)
+{
+ size *= factor;
+ QGraphicsSvgItem::setScale(factor);
+}
+
+/**
+ * @brief get the current property of components
+ * @return PropertyComponent
+ */
+const PropertyComponent & SvgDraggableItem::getPropertyComponent() const
+{
+  return pComponent;
+}
+
+/**
+ * @brief Adjust all wires conected to this component
+ */
+void SvgDraggableItem::adjustAll()
+{
+  PolyLinesItem * curr;
+  foreach (curr , wireLines)
   {
-    return pComponent;
+      curr->adjust();
   }
+}
+
+
+QVariant SvgDraggableItem::itemChange(GraphicsItemChange change, const QVariant &value)
+{
+  if(change == QGraphicsItem::ItemPositionChange)
+    adjustAll();
+  return QGraphicsItem::itemChange(change,value);
+}

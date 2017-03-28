@@ -16,7 +16,8 @@ PortItem::PortItem(const QPointF &position,const qreal &rad, Sig s,QGraphicsItem
   sig = s;
   active = QColor(Qt::blue);
   name = QString("port");
-setFlags(QGraphicsItem::ItemIsSelectable);
+  setFlags(QGraphicsItem::ItemIsSelectable);
+  setCursor(Qt::CrossCursor);
 }
 
 /**
@@ -67,4 +68,27 @@ void PortItem::setState(int st)
     active = QColor(Qt::blue);
 
   update();
+}
+
+void PortItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
+{
+    active = Qt::magenta;
+    update();
+    QGraphicsEllipseItem::hoverEnterEvent(event);
+}
+
+
+void PortItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
+{
+    active = Qt::blue;
+    update();
+    QGraphicsEllipseItem::hoverLeaveEvent(event);
+}
+
+
+void PortItem::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
+{
+    active = Qt::magenta;
+    update();
+    QGraphicsEllipseItem::hoverMoveEvent(event);
 }

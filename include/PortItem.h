@@ -23,6 +23,10 @@ class PortItem : public QGraphicsEllipseItem
     protected:
         void paint(QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0);
         void mousePressEvent(QGraphicsSceneMouseEvent * event);
+
+        void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
+        void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
+        void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
     private:
         qreal radius;
         QPointF posi;
