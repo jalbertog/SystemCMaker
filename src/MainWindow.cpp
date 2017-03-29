@@ -3,7 +3,10 @@
 #include <QKeyEvent>
 #include <PortItem.h>
 
-
+/**
+ * @brief Default constructor
+ * @param parent
+ */
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
     scene = new MGraphicsScene();

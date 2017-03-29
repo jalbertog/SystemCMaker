@@ -9,7 +9,7 @@
 * @param s Type of port (IN|OUT)
 */
 PortItem::PortItem(const QPointF &position,const qreal &rad, Sig s,QGraphicsItem * parent) : 
-                                               QGraphicsEllipseItem(position.x(),position.y(),2*rad,2*rad,parent)
+                                               QGraphicsEllipseItem(position.x(),position.y(),2*rad,2*rad,parent),org(rad)
 {
   posi = QPointF(position.x(),position.y());
   radius = rad;
@@ -52,17 +52,30 @@ void PortItem::paint(QPainter * painter, const QStyleOptionGraphicsItem * option
   painter->drawEllipse(posi.x(),posi.y(),2*radius+pen.width()/2.0,2*radius+pen.width()/2.0);
 }
 
+/**
+ * @brief PortItem::type
+ * @return type of QGraphicsItem
+ */
 int PortItem::type() const
 {
   return Type;
 }
+
+/**
+ * @brief get the pos of the port
+ * @return original pos of port
+ */
 QPointF PortItem::Pos()
 {
-  QPointF sc = mapToScene(posi+QPointF(radius,radius));
+  QPointF sc = mapToScene(posi+QPointF(org,org));
   qDebug() << "Position Port"<<sc;
   return sc;
 }
 
+/**
+ * @brief Set selected state
+ * @param st state of port (1 selected, 0 desected)
+ */
 void PortItem::setState(int st)
 {
   if(st == 1)
@@ -73,11 +86,15 @@ void PortItem::setState(int st)
   update();
 }
 
+/**
+ * @brief PortItem::hoverEnterEvent
+ * @param event
+ */
 void PortItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
   if(active != Qt::red)
-    active = Qt::magenta;
-  pen.setColor(Qt::yellow);
+    active = QColor("gold");
+  pen.setColor(QColor("darkorange"));
   pen.setStyle(Qt::DotLine);
   pen.setWidth(3);
   radius *= 2.0;
@@ -86,6 +103,11 @@ void PortItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 }
 
 
+/**
+ * @brief PortItem::hoverLeaveEvent
+ *    restore the last configuration of visual port
+ * @param event
+ */
 void PortItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 {
   if(active != Qt::red)
@@ -98,12 +120,3 @@ void PortItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
   QGraphicsEllipseItem::hoverLeaveEvent(event);
 }
 
-
-void PortItem::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
-{
-  if(active != Qt::red)
-    active = Qt::magenta;
-  pen.setColor(Qt::yellow);
-  pen.setStyle(Qt::DotLine);
-  QGraphicsEllipseItem::hoverMoveEvent(event);
-}

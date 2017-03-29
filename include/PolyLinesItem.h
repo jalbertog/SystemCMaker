@@ -28,6 +28,9 @@ class PolyLinesItem : public QGraphicsPathItem
   protected:
    void paint(QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0);
    void mousePressEvent(QGraphicsSceneMouseEvent *event);
+
+   void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
+   void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
   private:
     QVector<QPointF> breakPoints;
     int penWidth;
@@ -35,6 +38,7 @@ class PolyLinesItem : public QGraphicsPathItem
     QColor color;
     PortItem *portIn;
     PortItem *portOut;
+    QPen polPen;
   private:
     void CalculatePoints(const QPointF &start, const QPointF &end);
 };

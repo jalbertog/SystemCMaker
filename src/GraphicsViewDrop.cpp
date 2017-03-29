@@ -138,9 +138,6 @@ void GraphicsViewDrop::mouseDoubleClickEvent(QMouseEvent * event)
     first = 0;
   }
   
-  qDebug() << "Pos in View Coordinates : " << event->pos();
-  qDebug() << "Pos in Scene Coordinate: " << mapToScene(event->pos());
-  qDebug() << "Clicks " << click;
   QGraphicsView::mouseDoubleClickEvent(event);
 
 }

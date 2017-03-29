@@ -22,7 +22,7 @@ void MGraphicsScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
   if(press)
   {
-    qDebug() << "MOve";
+    qDebug() << "Move";
     QPointF current = event->scenePos();
     QSizeF siz(qAbs(initSelection.x()-current.x()),qAbs(initSelection.y()-current.y()));
     QRectF rect(initSelection,siz);

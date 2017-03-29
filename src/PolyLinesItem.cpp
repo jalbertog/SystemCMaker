@@ -9,6 +9,10 @@ PolyLinesItem::PolyLinesItem(PortItem *pIn, PortItem *pOut,QGraphicsItem *parent
   setFlags(QGraphicsItem::ItemIsSelectable);
   penWidth = 2;
   color = Qt::black;
+  polPen.setColor(color);
+  polPen.setWidth(penWidth);
+  setPen(polPen);
+  setAcceptHoverEvents(true);
   portIn = pIn;
   portOut = pOut;
   adjust();
@@ -123,8 +127,31 @@ void PolyLinesItem::paint(QPainter * painter, const QStyleOptionGraphicsItem * o
   painter->drawPath(path);
 }
 
-
+/**
+ * @brief PolyLinesItem::type
+ * @return type of QGraphicsItem
+ */
 int PolyLinesItem::type() const
 {
   return Type;
+}
+
+void PolyLinesItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
+{
+  color = QColor("gold");
+  penWidth = 4;
+  polPen.setColor(color);
+  polPen.setWidth(penWidth);
+  setPen(polPen);
+  update();
+}
+
+void PolyLinesItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
+{
+  color = Qt::black;
+  penWidth = 2;
+  polPen.setColor(color);
+  polPen.setWidth(penWidth);
+  setPen(polPen);
+  update();
 }
