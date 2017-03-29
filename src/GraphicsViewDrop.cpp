@@ -49,8 +49,6 @@ void GraphicsViewDrop::dropEvent(QDropEvent * event)
     SvgDraggableItem *svgItem = new SvgDraggableItem(name,rendererTable->value(name),cp);
     scene()->addItem(svgItem);
     svgItem->setScale(0.5);
-    qDebug() << "Pos in View Coordinates : " << event->pos();
-    qDebug() << "Pos in Scene Coordinate: " << mapToScene(event->pos());
     svgItem->setPosToItem(mapToScene(event->pos()));                                        //!!!
     event->accept();
     setCursor(Qt::ArrowCursor);

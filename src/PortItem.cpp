@@ -15,9 +15,11 @@ PortItem::PortItem(const QPointF &position,const qreal &rad, Sig s,QGraphicsItem
   radius = rad;
   sig = s;
   active = QColor(Qt::blue);
+  pen = QPen(Qt::black);
   name = QString("port");
   setFlags(QGraphicsItem::ItemIsSelectable);
   setCursor(Qt::CrossCursor);
+  setAcceptHoverEvents(true);
 }
 
 /**
@@ -46,7 +48,8 @@ void PortItem::mousePressEvent(QGraphicsSceneMouseEvent * event)
 void PortItem::paint(QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
 {
   painter->setBrush(QBrush(active));
-  painter->drawEllipse(posi.x(),posi.y(),2*radius,2*radius);
+  painter->setPen(pen);
+  painter->drawEllipse(posi.x(),posi.y(),2*radius+pen.width()/2.0,2*radius+pen.width()/2.0);
 }
 
 int PortItem::type() const
@@ -72,23 +75,35 @@ void PortItem::setState(int st)
 
 void PortItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
+  if(active != Qt::red)
     active = Qt::magenta;
-    update();
-    QGraphicsEllipseItem::hoverEnterEvent(event);
+  pen.setColor(Qt::yellow);
+  pen.setStyle(Qt::DotLine);
+  pen.setWidth(3);
+  radius *= 2.0;
+  setRect(posi.x(),posi.y(),2*radius+1.5,2*radius+1.5);
+  QGraphicsEllipseItem::hoverEnterEvent(event);
 }
 
 
 void PortItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 {
+  if(active != Qt::red)
     active = Qt::blue;
-    update();
-    QGraphicsEllipseItem::hoverLeaveEvent(event);
+  pen.setColor(Qt::black);
+  pen.setStyle(Qt::SolidLine);
+  pen.setWidth(1);
+  radius /= 2.0;
+  setRect(posi.x(),posi.y(),2*radius,2*radius);
+  QGraphicsEllipseItem::hoverLeaveEvent(event);
 }
 
 
 void PortItem::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
 {
+  if(active != Qt::red)
     active = Qt::magenta;
-    update();
-    QGraphicsEllipseItem::hoverMoveEvent(event);
+  pen.setColor(Qt::yellow);
+  pen.setStyle(Qt::DotLine);
+  QGraphicsEllipseItem::hoverMoveEvent(event);
 }

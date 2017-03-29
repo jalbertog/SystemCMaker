@@ -6,7 +6,7 @@
 PolyLinesItem::PolyLinesItem(PortItem *pIn, PortItem *pOut,QGraphicsItem *parent) : 
                                                 QGraphicsPathItem(parent) 
 {
-  setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable);
+  setFlags(QGraphicsItem::ItemIsSelectable);
   penWidth = 2;
   color = Qt::black;
   portIn = pIn;

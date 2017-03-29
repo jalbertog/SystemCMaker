@@ -27,11 +27,13 @@ class PortItem : public QGraphicsEllipseItem
         void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
         void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
         void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
+
     private:
         qreal radius;
         QPointF posi;
         Sig  sig;
         QColor active;
+        QPen pen;
         QString name;
 };
 #endif

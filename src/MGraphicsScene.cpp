@@ -20,19 +20,20 @@ void MGraphicsScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
 void MGraphicsScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
-    if(press)
-    {
-        qDebug() << "MOve";
-        QPointF current = event->scenePos();
-        QSizeF siz(qAbs(initSelection.x()-current.x()),qAbs(initSelection.y()-current.y()));
-        QRectF rect(initSelection,siz);
-        QPainterPath p;
-        p.addRect(rect.normalized());
-        qDebug() << rect;
-        //setSelectionArea(p);
-        update();
-    }
-    QGraphicsScene::mouseMoveEvent(event);
+  if(press)
+  {
+    qDebug() << "MOve";
+    QPointF current = event->scenePos();
+    QSizeF siz(qAbs(initSelection.x()-current.x()),qAbs(initSelection.y()-current.y()));
+    QRectF rect(initSelection,siz);
+    QPainterPath p;
+    p.addRect(rect.normalized());
+    qDebug() << rect;
+    //setSelectionArea(p);
+    update();
+  }
+
+  QGraphicsScene::mouseMoveEvent(event);
 }
 
 void MGraphicsScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
