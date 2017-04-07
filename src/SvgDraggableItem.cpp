@@ -1,6 +1,7 @@
 #include "SvgDraggableItem.h"
 #include <PolyLinesItem.h>
 #include <GraphicsViewDrop.h>
+#include <QScrollBar>
 
 SvgDraggableItem::SvgDraggableItem(const QString &n,QSvgRenderer * renderer,const PropertyComponent &cmp
                                       , QGraphicsItem* parent): QGraphicsSvgItem(parent), m_dragged(false), name(n)
@@ -8,14 +9,17 @@ SvgDraggableItem::SvgDraggableItem(const QString &n,QSvgRenderer * renderer,cons
   setFlags(QGraphicsItem::ItemIsSelectable| QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemSendsGeometryChanges);
   setSharedRenderer(renderer);
   pComponent = cmp;
+  text = "";
+  pointFont = 28;
 
+  middle = QPoint(size.width()/2,size.height()/2);
 // TODO dinamyc calcute of ports
   qDebug() <<"In Ports" << pComponent.numberInPorts();
   switch(pComponent.numberInPorts())
   {
     PortItem *p;
     case 1:
-      p = new PortItem(QPointF(0.0,size. height()/2.0-6.0),6.0,PortItem::IN,this);
+      p = new PortItem(QPointF(0.0,size.height()/2.0-6.0),6.0,PortItem::IN,this);
       p->setName(pComponent.inPortsList().at(0));
       inPorts << p;
     break;
@@ -97,8 +101,9 @@ void SvgDraggableItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 void SvgDraggableItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
   setCursor(Qt::OpenHandCursor);
+  qDebug() << event->scenePos();
   update();
-  QGraphicsSvgItem::mouseReleaseEvent(event);  
+  QGraphicsSvgItem::mousePressEvent(event);
 }
 
 /**
@@ -214,4 +219,30 @@ QVariant SvgDraggableItem::itemChange(GraphicsItemChange change, const QVariant 
   if(change == QGraphicsItem::ItemPositionChange)
     adjustAll();
   return QGraphicsItem::itemChange(change,value);
+}
+
+
+void SvgDraggableItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+{
+  QGraphicsSvgItem::paint(painter,option,widget);
+  if(text != "")
+  {
+    painter->setFont(QFont("Times", pointFont, QFont::Bold));
+    painter->drawText(postext,text);
+  }
+}
+
+void SvgDraggableItem::drawText(const QString &text,bool def, const QPoint &p)
+{
+  this->text = text;
+  postext = def ? p : middle-QPoint(pointFont/2,-pointFont/2);
+  qDebug() << "draw " << this->text << postext;
+  update();
+}
+
+
+void SvgDraggableItem::deleteText()
+{
+  this->text = "";
+  update();
 }

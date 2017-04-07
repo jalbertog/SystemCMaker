@@ -1,6 +1,8 @@
 #include "GraphicsViewDrop.h"
 #include <PolyLinesItem.h>
 #include <QScrollBar>
+#include <QInputDialog>
+#include <QLineEdit>
 
 /**
 * @brief Default constructor
@@ -44,12 +46,35 @@ void GraphicsViewDrop::dropEvent(QDropEvent * event)
   {
     QString name = event->mimeData()->text();
     PropertyComponent cp(name);
+    bool ok = false;
+    QString text;
     if(name == QString("NOT_gate"))
       cp = cp.getNotGate();
+    else if(name == "input")
+    {
+      cp = PropertyComponent();
+      cp.name = name;
+      cp.addPort(QString("a_out"),PortItem::OUT);
+      text = QInputDialog::getText(this, tr("Nombre"),
+                                               tr("Nombre de la variable:"), QLineEdit::Normal,
+                                               "nomb", &ok);
+      if(!ok)
+      {
+          event->ignore();
+          setCursor(Qt::ArrowCursor);
+          return;
+      }
+
+    }
     SvgDraggableItem *svgItem = new SvgDraggableItem(name,rendererTable->value(name),cp);
     scene()->addItem(svgItem);
     svgItem->setScale(0.5);
-    svgItem->setPosToItem(mapToScene(event->pos()));                                        //!!!
+    svgItem->setPosToItem(mapToScene(event->pos()));                                       //!!!
+    if(name == "input")
+    {
+      qDebug() << "draw text";
+      svgItem->drawText(text,false);
+    }
     event->accept();
     setCursor(Qt::ArrowCursor);
   } 

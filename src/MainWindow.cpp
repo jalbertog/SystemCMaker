@@ -13,12 +13,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     scene->setSceneRect(0,0,480,360);
     frame = new frameDrag();
     frame->setFrameStyle(QFrame::Sunken | QFrame::StyledPanel);
-    frame->resize(100,360);
+    frame->resize(120,360);
     view = new GraphicsViewDrop(scene);
     setAcceptDrops(true);
 
+    QScrollArea *sc = new QScrollArea;
+    sc->setWidget(frame);
     sp = new QSplitter();
-    sp->addWidget(frame);
+    sp->addWidget(sc);
     sp->addWidget(view);
     setCentralWidget(sp);
     QBrush myBrush(Qt::blue, Qt::CrossPattern);
@@ -30,6 +32,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     rendererTable.insert(QString("OR_gate"),new QSvgRenderer(QLatin1String(":/SVG/OR_gate.svg")));
     rendererTable.insert(QString("XOR_gate"),new QSvgRenderer(QLatin1String(":/SVG/XOR_gate.svg")));
     rendererTable.insert(QString("NOT_gate"),new QSvgRenderer(QLatin1String(":/SVG/NOT_gate.svg")));
+    rendererTable.insert(QString("input"),new QSvgRenderer(QLatin1String(":/SVG/input.svg")));
 
     view->setRedererTable(&rendererTable);
 
@@ -95,4 +98,5 @@ void MainWindow::resizeEvent(QResizeEvent * event)
 {
     QSize nSize = event->size();
     scene->setSceneRect(QRectF(QPointF(0.0,0.0),QSizeF(nSize)));
+    frame->resize(120,nSize.height()+20);
 }

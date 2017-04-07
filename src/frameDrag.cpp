@@ -32,6 +32,13 @@ frameDrag::frameDrag(QWidget *parent)
   notGate->show();
   notGate->setAttribute(Qt::WA_DeleteOnClose);
   mapNameGate.insert(notGate,QString("NOT_gate"));
+
+  QLabel *input = new QLabel(this);
+  input->setPixmap(QIcon(":/SVG/input.svg").pixmap(QSize(80,80)));
+  input->move(10, 320);
+  input->show();
+  input->setAttribute(Qt::WA_DeleteOnClose);
+  mapNameGate.insert(input,QString("input"));
 }
 
 // Event when the drag enter in the widget
