@@ -39,6 +39,15 @@ frameDrag::frameDrag(QWidget *parent)
   input->show();
   input->setAttribute(Qt::WA_DeleteOnClose);
   mapNameGate.insert(input,QString("input"));
+
+  QLabel *output = new QLabel(this);
+  output->setPixmap(QIcon(":/SVG/output.svg").pixmap(QSize(80,80)));
+  output->move(10, 380);
+  output->show();
+  output->setAttribute(Qt::WA_DeleteOnClose);
+  mapNameGate.insert(output,QString("output"));
+
+  resize(120,460);
 }
 
 // Event when the drag enter in the widget

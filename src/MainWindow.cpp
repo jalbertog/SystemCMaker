@@ -3,6 +3,7 @@
 #include <QKeyEvent>
 #include <PortItem.h>
 
+int n = 0;
 /**
  * @brief Default constructor
  * @param parent
@@ -13,7 +14,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     scene->setSceneRect(0,0,480,360);
     frame = new frameDrag();
     frame->setFrameStyle(QFrame::Sunken | QFrame::StyledPanel);
-    frame->resize(120,360);
+    //frame->resize(120,360);
     view = new GraphicsViewDrop(scene);
     setAcceptDrops(true);
 
@@ -22,7 +23,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     sp = new QSplitter();
     sp->addWidget(sc);
     sp->addWidget(view);
-    setCentralWidget(sp);
+    tb = new QTabWidget();
+    tb->addTab(sp,QString("Circuit"));
+    setCentralWidget(tb);
     QBrush myBrush(Qt::blue, Qt::CrossPattern);
     view->setBackgroundBrush(myBrush);
 
@@ -33,6 +36,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     rendererTable.insert(QString("XOR_gate"),new QSvgRenderer(QLatin1String(":/SVG/XOR_gate.svg")));
     rendererTable.insert(QString("NOT_gate"),new QSvgRenderer(QLatin1String(":/SVG/NOT_gate.svg")));
     rendererTable.insert(QString("input"),new QSvgRenderer(QLatin1String(":/SVG/input.svg")));
+    rendererTable.insert(QString("output"),new QSvgRenderer(QLatin1String(":/SVG/output.svg")));
 
     view->setRedererTable(&rendererTable);
 
@@ -78,6 +82,11 @@ void MainWindow::keyPressEvent(QKeyEvent * event)
         }
     }
 
+    if(event->matches(QKeySequence::AddTab))
+      {
+        tb->addTab(new QLabel(QString("Otro Tab")+QString::number(n)),QString("tab")+QString::number(n));
+        n++;
+      }
     switch(event->key())
     {
         case Qt::Key_Escape:
@@ -98,5 +107,5 @@ void MainWindow::resizeEvent(QResizeEvent * event)
 {
     QSize nSize = event->size();
     scene->setSceneRect(QRectF(QPointF(0.0,0.0),QSizeF(nSize)));
-    frame->resize(120,nSize.height()+20);
+    //frame->resize(120,nSize.height()+20);
 }

@@ -66,11 +66,26 @@ void GraphicsViewDrop::dropEvent(QDropEvent * event)
       }
 
     }
+    else if(name == QString("output"))
+    {
+        cp = PropertyComponent();
+        cp.name = name;
+        cp.addPort(QString("a_out"),PortItem::IN);
+        text = QInputDialog::getText(this, tr("Nombre"),
+                                                 tr("Nombre de la variable:"), QLineEdit::Normal,
+                                                 "nomb", &ok);
+        if(!ok)
+        {
+            event->ignore();
+            setCursor(Qt::ArrowCursor);
+            return;
+        }
+    }
     SvgDraggableItem *svgItem = new SvgDraggableItem(name,rendererTable->value(name),cp);
     scene()->addItem(svgItem);
     svgItem->setScale(0.5);
     svgItem->setPosToItem(mapToScene(event->pos()));                                       //!!!
-    if(name == "input")
+    if(name == "input" or name == "output")
     {
       qDebug() << "draw text";
       svgItem->drawText(text,false);

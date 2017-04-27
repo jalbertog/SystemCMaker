@@ -6,5 +6,6 @@
         <file>SVG/NOT_gate.svg</file>
         <file>SVG/input.svg</file>
         <file>SVG/plus.png</file>
+        <file>SVG/output.svg</file>
     </qresource>
 </RCC>

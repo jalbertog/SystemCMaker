@@ -10,6 +10,7 @@
 #include <frameDrag.h>
 #include <GraphicsViewDrop.h>
 #include <QSplitter>
+#include <QTabWidget>
 
 class MainWindow : public QMainWindow
 {
@@ -22,6 +23,7 @@ class MainWindow : public QMainWindow
     QSplitter *sp;
     QHash<QString,QSvgRenderer *> rendererTable;
     frameDrag *frame;
+    QTabWidget *tb;
   protected:
     void keyPressEvent(QKeyEvent * event);
     void resizeEvent(QResizeEvent * event);
