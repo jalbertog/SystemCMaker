@@ -24,11 +24,27 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     sp->addWidget(sc);
     sp->addWidget(view);
     tb = new QTabWidget();
+
+    QPushButton *closeButt = new QPushButton;
+    closeButt->setIcon(QIcon(":/SVG/close_tab.png"));
+    closeButt->resize(16,16);
+    QRegion *reg = new QRegion(QRect(closeButt->x(),closeButt->y(),32,32),QRegion::Rectangle);
+    closeButt->setMask(*reg);
+
+    QPushButton *addBut= new QPushButton;
+    addBut->setIcon(QIcon(":/SVG/add_tab.png"));
+    addBut->resize(16,16);
+
     tb->addTab(sp,QString("Circuit"));
+    tb->addTab(new QLabel(QString("tab")),QString(""));
+    tb->tabBar()->setTabButton(0,QTabBar::RightSide,closeButt);
+    tb->tabBar()->setTabButton(1,QTabBar::LeftSide,addBut);
+
     setCentralWidget(tb);
     QBrush myBrush(Qt::blue, Qt::CrossPattern);
     view->setBackgroundBrush(myBrush);
 
+    selectAll = false;
     resize(580,360);
     //Resources table for shared svg files
     rendererTable.insert(QString("AND_gate"),new QSvgRenderer(QLatin1String(":/SVG/AND_gate.svg")));
@@ -46,8 +62,20 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     svgItem->setPos(30,120);
     svgItem->setScale(0.5);
 
+    createMenus();
+
 }
 
+void MainWindow::createMenus()
+{
+    menuBar()->addMenu("Archivo");
+    menuBar()->addMenu("Editar");
+    menuBar()->addMenu("Proyecto");
+    menuBar()->addMenu("Analisis");
+    QMenu * about = menuBar()->addMenu("About");
+    about->addMenu("about qt");
+
+}
 
 void MainWindow::keyPressEvent(QKeyEvent * event)
 {
@@ -87,6 +115,21 @@ void MainWindow::keyPressEvent(QKeyEvent * event)
         tb->addTab(new QLabel(QString("Otro Tab")+QString::number(n)),QString("tab")+QString::number(n));
         n++;
       }
+
+    if(event->matches(QKeySequence::SelectAll))
+    {
+        qDebug() << "Select ALL\n";
+        if(selectAll)
+            scene->clearSelection();
+        else
+        {
+            QPainterPath path;
+            path.addRect(view->rect());
+            scene->setSelectionArea(path);
+        }
+
+        selectAll = !selectAll;
+    }
     switch(event->key())
     {
         case Qt::Key_Escape:

@@ -7,7 +7,6 @@ TARGET = SystemCMaker
 INCLUDEPATH += ./include
 QT += widgets svg gui
 
-LIBS += -L${LIB}
 # Input
 HEADERS += include/frameDrag.h \
            include/GraphicsViewDrop.h \
@@ -16,7 +15,8 @@ HEADERS += include/frameDrag.h \
            include/PolyLinesItem.h \
            include/PortItem.h \
            include/PropertyComponent.h \
-           include/SvgDraggableItem.h
+           include/SvgDraggableItem.h \
+    include/template.h
 SOURCES += main.cpp \
            src/frameDrag.cpp \
            src/GraphicsViewDrop.cpp \
@@ -25,5 +25,6 @@ SOURCES += main.cpp \
            src/PolyLinesItem.cpp \
            src/PortItem.cpp \
            src/PropertyComponent.cpp \
-           src/SvgDraggableItem.cpp
+           src/SvgDraggableItem.cpp \
+    src/template.cpp
 RESOURCES += SystemCMaker.qrc

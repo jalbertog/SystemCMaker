@@ -7,5 +7,7 @@
         <file>SVG/input.svg</file>
         <file>SVG/plus.png</file>
         <file>SVG/output.svg</file>
+	<file>SVG/add_tab.png</file>
+	<file>SVG/close_tab.png</file>
     </qresource>
 </RCC>

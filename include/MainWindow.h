@@ -24,10 +24,14 @@ class MainWindow : public QMainWindow
     QHash<QString,QSvgRenderer *> rendererTable;
     frameDrag *frame;
     QTabWidget *tb;
+
+    bool selectAll;
   protected:
     void keyPressEvent(QKeyEvent * event);
     void resizeEvent(QResizeEvent * event);
-        
+
+  private:
+    void createMenus();
 };
 
 #endif

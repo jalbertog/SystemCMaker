@@ -1,0 +1,39 @@
+#ifndef [% CLASSNAME_UPPERCAST %]_H
+#define [% CLASSNAME_UPPERCAST %]_H
+
+#include<systemc.h>
+[% INCLUDE_SECTION %]
+
+class [% CLASS_NAME %] : public sc_module
+{
+    public:
+        [% IN_PORTS_DECL %]
+
+        [% OUT_PORTS_DECL %]
+
+        SC_CTOR([% CLASS_NAME %])
+        {
+            [% CREATE_COMPONENTS_SECTION %]
+
+            [% LINK__COMPONENTS_SECTION %]
+
+            // for future
+            [% METHODS_SECTION %]
+        }
+
+
+        ~[% CLASS_NAME %]()
+        {
+            [% CLEAN_UP_SECTION %]
+        }
+    private:
+
+        [% PRIVATE_MEMBERS_SECCION %]
+
+        // for future
+        [% METHODS_DECL %]
+
+
+};
+
+#endif
