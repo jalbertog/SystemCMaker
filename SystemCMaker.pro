@@ -16,7 +16,8 @@ HEADERS += include/frameDrag.h \
            include/PortItem.h \
            include/PropertyComponent.h \
            include/SvgDraggableItem.h \
-    include/template.h
+    include/template.h \
+    include/codebuilder.h
 SOURCES += main.cpp \
            src/frameDrag.cpp \
            src/GraphicsViewDrop.cpp \
@@ -26,5 +27,7 @@ SOURCES += main.cpp \
            src/PortItem.cpp \
            src/PropertyComponent.cpp \
            src/SvgDraggableItem.cpp \
-    src/template.cpp
+    src/template.cpp \
+    src/codebuilder.cpp
 RESOURCES += SystemCMaker.qrc
+

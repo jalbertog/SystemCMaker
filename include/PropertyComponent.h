@@ -10,12 +10,15 @@
 class PropertyComponent
 {
     public:
+
         PropertyComponent() {}
         PropertyComponent(const QString &n);
+        PropertyComponent(const QString &n, int tp);
         void addPort(const QString &nPort,PortItem::Sig s);
         void setPos(const QPointF &p);
         inline const QStringList & inPortsList() const {return inPorts;}
         inline const QStringList & outPortsList() const {return outPorts;}
+
         int numberInPorts() const;
         int numberOutPorts() const; 
         QPointF Pos() const;
@@ -27,7 +30,8 @@ class PropertyComponent
         PropertyComponent getOrGate();
 
         QString name;
-        
+        int type;
+
         void operator=(const PropertyComponent &other);
     private:
         QPointF pos;

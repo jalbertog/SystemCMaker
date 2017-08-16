@@ -1,0 +1,23 @@
+[% INCLUDE_SECTION %]
+#include "TestBench.h"
+
+
+int sc_main(int argc,char *argv[])
+{
+	sc_time PERIOD(10,SC_NS);	
+	sc_time DELAY(10,SC_NS);	
+	sc_clock clock("clock",PERIOD,0.5,DELAY,true);
+
+	[% MAIN_COMPONENT_DECL %]
+	TestBench test("test");
+
+	[% SIGNALS_DECL %]
+
+    [% CONECTION_COMPONENT %]
+
+	test.clk_in(clock);
+	[% CONECTION_TEST %]
+
+	sc_start();
+	return 0;
+}

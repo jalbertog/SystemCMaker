@@ -30,6 +30,9 @@ class MainWindow : public QMainWindow
     void keyPressEvent(QKeyEvent * event);
     void resizeEvent(QResizeEvent * event);
 
+  public Q_SLOTS:
+    void generateCode();
+
   private:
     void createMenus();
 };

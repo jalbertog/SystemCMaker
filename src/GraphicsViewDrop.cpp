@@ -45,7 +45,7 @@ void GraphicsViewDrop::dropEvent(QDropEvent * event)
   if (event->mimeData()->hasText()) 
   {
     QString name = event->mimeData()->text();
-    PropertyComponent cp(name);
+    PropertyComponent cp(name,0);
     bool ok = false;
     QString text;
     if(name == QString("NOT_gate"))
@@ -55,6 +55,7 @@ void GraphicsViewDrop::dropEvent(QDropEvent * event)
       cp = PropertyComponent();
       cp.name = name;
       cp.addPort(QString("a_out"),PortItem::OUT);
+      cp.type = 1;
       text = QInputDialog::getText(this, tr("Nombre"),
                                                tr("Nombre de la variable:"), QLineEdit::Normal,
                                                "nomb", &ok);
@@ -70,7 +71,8 @@ void GraphicsViewDrop::dropEvent(QDropEvent * event)
     {
         cp = PropertyComponent();
         cp.name = name;
-        cp.addPort(QString("a_out"),PortItem::IN);
+        cp.addPort(QString("a_in"),PortItem::IN);
+        cp.type = 2;
         text = QInputDialog::getText(this, tr("Nombre"),
                                                  tr("Nombre de la variable:"), QLineEdit::Normal,
                                                  "nomb", &ok);
@@ -82,6 +84,7 @@ void GraphicsViewDrop::dropEvent(QDropEvent * event)
         }
     }
     SvgDraggableItem *svgItem = new SvgDraggableItem(name,rendererTable->value(name),cp);
+    qDebug() << "Adding = " << cp.name << (int)cp.type;
     scene()->addItem(svgItem);
     svgItem->setScale(0.5);
     svgItem->setPosToItem(mapToScene(event->pos()));                                       //!!!
@@ -95,6 +98,7 @@ void GraphicsViewDrop::dropEvent(QDropEvent * event)
   } 
   else 
       event->ignore();
+
 }
 
 /**
@@ -108,6 +112,7 @@ void GraphicsViewDrop::dragEnterEvent(QDragEnterEvent *event)
     event->setDropAction(Qt::MoveAction);
     event->accept();
     setCursor(Qt::ClosedHandCursor);
+
   } 
   else
     event->ignore();

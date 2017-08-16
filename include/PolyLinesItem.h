@@ -18,10 +18,15 @@ class PolyLinesItem : public QGraphicsPathItem
 
     PolyLinesItem(PortItem *pIn, PortItem *pOut,QGraphicsItem* parent = 0);
     PolyLinesItem(PortItem *pIn, PortItem *pOut,
-       const QPointF &start, const QPointF &end,QGraphicsItem* parent = 0);
+
+    const QPointF &start, const QPointF &end,QGraphicsItem* parent = 0);
     int type() const;
     QPointF firstPoint() const;
     QPointF lastPoint() const;
+
+    inline PortItem * inPort() { return portIn;}
+    inline PortItem * outPort() {return portOut;}
+
     void adjust(const QPointF &start, const QPointF &end);
     void adjust();
     bool detach();

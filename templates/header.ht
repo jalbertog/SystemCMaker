@@ -7,15 +7,16 @@
 class [% CLASS_NAME %] : public sc_module
 {
     public:
-        [% IN_PORTS_DECL %]
-
-        [% OUT_PORTS_DECL %]
+    // in ports
+[% IN_PORTS_DECL %]
+    // out ports
+[% OUT_PORTS_DECL %]
 
         SC_CTOR([% CLASS_NAME %])
         {
-            [% CREATE_COMPONENTS_SECTION %]
+[% CREATE_COMPONENTS_SECTION %]
 
-            [% LINK__COMPONENTS_SECTION %]
+[% LINK__COMPONENTS_SECTION %]
 
             // for future
             [% METHODS_SECTION %]
@@ -24,14 +25,14 @@ class [% CLASS_NAME %] : public sc_module
 
         ~[% CLASS_NAME %]()
         {
-            [% CLEAN_UP_SECTION %]
+[% CLEAN_UP_SECTION %]
         }
     private:
 
-        [% PRIVATE_MEMBERS_SECCION %]
+[% PRIVATE_MEMBERS_SECCION %]
 
         // for future
-        [% METHODS_DECL %]
+    [% METHODS_DECL %]
 
 
 };

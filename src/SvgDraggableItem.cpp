@@ -196,7 +196,7 @@ void SvgDraggableItem::setScale(qreal factor)
  * @brief get the current property of components
  * @return PropertyComponent
  */
-const PropertyComponent & SvgDraggableItem::getPropertyComponent() const
+PropertyComponent SvgDraggableItem::getPropertyComponent()
 {
   return pComponent;
 }

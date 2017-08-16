@@ -1,0 +1,15 @@
+#include "TestBench.h"
+
+void TestBench::test(){
+
+	[% PRINT_HEADER_VAR %]
+	cout<<"---------------------------------------------------"<<endl;
+
+    [% STIMULUS %]
+
+	sc_stop();
+}
+
+void TestBench::print(){
+	[% PRINT_FUNCTION %]
+}

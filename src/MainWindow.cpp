@@ -2,6 +2,8 @@
 #include <QSvgRenderer>
 #include <QKeyEvent>
 #include <PortItem.h>
+#include <codebuilder.h>
+#include <QtGui>
 
 int n = 0;
 /**
@@ -57,7 +59,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     view->setRedererTable(&rendererTable);
 
     SvgDraggableItem *svgItem = new SvgDraggableItem("AND_gate",rendererTable.value(QString("AND_gate")),
-                                                                            PropertyComponent("AND_gate"));
+                                                                            PropertyComponent("AND_gate",0));
     scene->addItem(svgItem);
     svgItem->setPos(30,120);
     svgItem->setScale(0.5);
@@ -68,10 +70,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
 void MainWindow::createMenus()
 {
-    menuBar()->addMenu("Archivo");
+    QMenu * archivo = menuBar()->addMenu("Archivo");
     menuBar()->addMenu("Editar");
     menuBar()->addMenu("Proyecto");
-    menuBar()->addMenu("Analisis");
+    QMenu *analisis = menuBar()->addMenu("Analisis");
+    QAction *genCode = analisis->addAction("Generate");
+
+    QObject::connect(genCode,SIGNAL(triggered()),this,SLOT(generateCode()));
+
     QMenu * about = menuBar()->addMenu("About");
     about->addMenu("about qt");
 
@@ -144,6 +150,26 @@ void MainWindow::keyPressEvent(QKeyEvent * event)
         default:
             QMainWindow::keyPressEvent(event);
     }
+}
+
+void MainWindow::generateCode()
+{
+    QHash<QString,QString> dicClassComp;
+    QHash<QString,QString> dicClassHeader;
+    dicClassComp.insert("AND_gate","AndGate");
+    dicClassComp.insert("OR_gate","OrGate");
+    dicClassComp.insert("XOR_gate","XorGate");
+    dicClassComp.insert("NOT_gate","NotGate");
+
+    dicClassHeader.insert("AndGate","and.h");
+    dicClassHeader.insert("OrGate","or.h");
+    dicClassHeader.insert("XorGate","xor.h");
+    dicClassHeader.insert("NotGate","not.h");
+
+    CodeBuilder builder(this->view,QString("design"));
+    builder.componentClass = dicClassComp;
+    builder.classHeader = dicClassHeader;
+    builder.generate("salida/",true);
 }
 
 void MainWindow::resizeEvent(QResizeEvent * event)

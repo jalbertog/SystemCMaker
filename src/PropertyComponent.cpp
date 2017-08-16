@@ -2,10 +2,27 @@
 
 PropertyComponent::PropertyComponent(const QString &n) : name(n)
 {
-    addPort("a_in",PortItem::IN);
-    addPort("b_in",PortItem::IN);
-    addPort("c_out",PortItem::OUT);
+    if(!n.isEmpty())
+    {
+        addPort("a_in",PortItem::IN);
+        addPort("b_in",PortItem::IN);
+        addPort("c_out",PortItem::OUT);
+    }
+
 }
+
+PropertyComponent::PropertyComponent(const QString &n,int tp) : name(n)
+{
+    if(!n.isEmpty())
+    {
+        addPort("a_in",PortItem::IN);
+        addPort("b_in",PortItem::IN);
+        addPort("c_out",PortItem::OUT);
+        this->type = tp;
+    }
+
+}
+
 
 void PropertyComponent::addPort(const QString &nPort,PortItem::Sig s)
 {

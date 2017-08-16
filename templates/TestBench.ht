@@ -1,0 +1,25 @@
+#ifndef TESTBENCH_H
+#define TESTBENCH_H
+#include <systemc.h>
+#include <iostream>
+using namespace std;
+
+class TestBench : public sc_module
+{
+
+	public:
+		[% INPUT_PORTS %]
+		[% OUTPUT_PORTS %]
+		
+		SC_CTOR(TestBench){
+			SC_THREAD(test);
+				sensitive<<clk_in.pos();
+				dont_initialize();
+}
+
+	private:
+		void test();
+		void print();
+};
+#endif
+
