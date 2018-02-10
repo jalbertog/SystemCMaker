@@ -1,4 +1,0 @@
-#!/bin/sh
-wget -c http://archive.ubuntu.com/ubuntu/pool/main/m/mysql-5.7/libmysqlclient20_5.7.18-0ubuntu0.16.04.1_i386.deb
-wget -c http://archive.ubuntu.com/ubuntu/pool/main/p/python-mysqldb/python3-mysqldb_1.3.7-1build2_i386.deb
-wget -c http://archive.ubuntu.com/ubuntu/pool/main/p/psycopg2/python3-psycopg2_2.6.1-1build2_i386.deb
